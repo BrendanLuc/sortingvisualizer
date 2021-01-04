@@ -5,7 +5,7 @@ import SortingVisualizer from './SortingVisualizer/SortingVisualizer';
 function App() {
   return (
     <div className="App">
-      <h1>Sarah and Brendan's Sorting Visualizer!!</h1>
+      <h1>Sorting Algorithms</h1>
       <SortingVisualizer>
 
       </SortingVisualizer>

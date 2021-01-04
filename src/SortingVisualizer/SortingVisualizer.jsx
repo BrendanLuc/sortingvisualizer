@@ -2,7 +2,7 @@ import React from 'react';
 import './SortingVisualizer.css';
 
 const VIS_MIN = 5
-const VIS_MAX = 800
+const VIS_MAX = 650
 const ARR_SIZE = 100
 
 export default class SortingVisualizer extends React.Component {
@@ -32,17 +32,19 @@ export default class SortingVisualizer extends React.Component {
         const {array} = this.state;
 
         return (
-            <div className="array-container">
-            {array.map((value, idx) => (
-                <div 
-                    className="array-bar" 
-                    key={idx}
-                    style={{height: `${value}px`}}>
-            
+            <div className="big-container">
+                <button type="button" class="btn btn-primary" onClick={() => this.resetArray()}>Generate New Numbers</button>
+
+                <div className="array-container">
+                {array.map((value, idx) => (
+                    <div 
+                        className="array-bar" 
+                        key={idx}
+                        style={{height: `${value}px`}}>
+                
+                    </div>
+                ))}
                 </div>
-            ))}
-            
-            <button type="button" class="btn btn-primary" onClick={this.resetArray}>Generate New Numbers</button>
             </div>
         );
     }
