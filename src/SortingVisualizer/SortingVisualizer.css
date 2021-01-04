@@ -1,0 +1,15 @@
+.array-container {
+    /*background: lightblue;*/
+    position: relative;
+    margin: auto;
+    margin-top: 0px;
+    width: 80%;
+}
+
+.array-bar {
+    display: inline-block;
+    vertical-align: top;
+    background: darkblue;
+    margin: 1px;
+    width: 4px;
+}
