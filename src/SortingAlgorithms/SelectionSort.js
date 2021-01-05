@@ -8,7 +8,7 @@ export function getSelectionSortAnimations(array) {
     return animations;
 }
 
-function swap(i, j){
+function swap(i, j, array){
     let temp = array[i]; 
     array[i] = array[j];
     array[j] = temp;
@@ -16,21 +16,23 @@ function swap(i, j){
 
 function selectionSort(array, animations){
     
-    let arrLen = array.length();
+    let arrLen = array.length;
 
     for(let i = 0 ; i < arrLen; ++i){
 
         let idx = i;
 
-        for(let j = 0; j < arrLen - i; ++j){
-            if(array[j] < array[i]) {
+        for(let j = i+1; j < arrLen; ++j){
+            if(array[j] < array[idx]) {
                 idx = j;
             }
         }
 
-        swap(i, j);
-        animations.push(i, j);
+
+        swap(i, idx, array);
+        animations.push([i, idx]);
     }
+
     
     return animations;
 
