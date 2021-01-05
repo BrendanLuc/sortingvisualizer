@@ -1,5 +1,6 @@
 export function getSelectionSortAnimations(array) {
     const animations = [];
+
     if (array.length <= 1) return array;
 
     selectionSort(array, animations);
@@ -30,4 +31,7 @@ function selectionSort(array, animations){
         swap(i, j);
         animations.push(i, j);
     }
+    
+    return animations;
+
 }

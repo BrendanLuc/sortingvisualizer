@@ -1,15 +1,22 @@
+/* MINTY: https://bootswatch.com/minty/ */
+
+.big-container {
+    margin-top: 10px;
+}
+
 .array-container {
     /*background: lightblue;*/
     position: relative;
     margin: auto;
-    margin-top: 0px;
+    margin-top: 5px;
     width: 80%;
 }
 
 .array-bar {
     display: inline-block;
     vertical-align: top;
-    background: darkblue;
+    background: #6cc3d5;
     margin: 1px;
-    width: 4px;
+    width: 10px;
+    border-radius: 5px;
 }
