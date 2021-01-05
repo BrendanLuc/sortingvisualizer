@@ -28,6 +28,31 @@ export default class SortingVisualizer extends React.Component {
         this.setState({array});
     }
 
+    animate
+
+    //selection sort
+    animateSelectionSort(){
+
+    }
+    //bubble sort
+    animateBubbleSort(){
+
+    }
+
+    //insertion sort
+    animateInsertionSort(){
+
+    }
+
+    //merge sort
+    animateMergeSort(){
+        
+    }
+
+    //fixme: quicksort later
+    //fixme: heapsort?
+
+
     render(){
         const {array} = this.state;
 
