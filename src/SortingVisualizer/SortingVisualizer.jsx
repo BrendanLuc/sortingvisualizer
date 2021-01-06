@@ -1,12 +1,13 @@
 import React from 'react';
 import './SortingVisualizer.css';
 import {getBubbleSortAnimations} from '../SortingAlgorithms/BubbleSort.jsx';
+import {getInsertionSortAnimations} from '../SortingAlgorithms/InsertionSort.jsx';
 
 
 const VIS_MIN = 5
 const VIS_MAX = 650
 const ARR_SIZE = 100
-const ANIMATION_SPEED_MS = 500
+const ANIMATION_SPEED_MS = 1
 
 const PRIMARY_COLOR = '#6cc3d5'
 const SECONDARY_COLOR = '#fd7e14'
@@ -48,8 +49,8 @@ export default class SortingVisualizer extends React.Component {
     async animateBubbleSort() {
         const animations = getBubbleSortAnimations(this.state.array);
         // console.log(animations);
-
-        for (let i = 0; i , animations.length; i++) {
+        // console.log(animations.length)
+        for (let i = 0; i < animations.length; i++) {
             let arrayBars = document.getElementsByClassName('array-bar');
             // highlight then swap
             
@@ -57,9 +58,7 @@ export default class SortingVisualizer extends React.Component {
             let [firstBar, secondBar, isSwap] = animations[i];
 
             let firstBarStyle = arrayBars[firstBar].style;
-            let secondBarStyle = arrayBars[firstBar + 1].style;
-
-
+            let secondBarStyle = arrayBars[secondBar].style
 
             // highlight values being compared
             // SECONDAY_COLOR shows comparison, SWAP_COLOR shows if there is a swap
@@ -82,10 +81,12 @@ export default class SortingVisualizer extends React.Component {
             secondBarStyle.backgroundColor = PRIMARY_COLOR;
             await this.sleep(ANIMATION_SPEED_MS);
         }
+        console.log("SORTED!!!")
     }
 
     //insertion sort
-    animateInsertionSort(){
+    async animateInsertionSort(){
+        const animations = getInsertionSortAnimations(this.state.array);
 
     }
 
@@ -105,6 +106,7 @@ export default class SortingVisualizer extends React.Component {
             <div className="big-container">
                 <button type="button" class="btn btn-primary" onClick={() => this.resetArray()}>Generate New Numbers</button>
                 <button type="button" class="btn btn-primary" onClick={() => this.animateBubbleSort()}>Bubble Sort</button>
+                <button type="button" class="btn btn-primary" onClick={() => this.animateInsertionSort()}>Insertion Sort</button>
 
                 <div className="array-container">
                 {array.map((value, idx) => (

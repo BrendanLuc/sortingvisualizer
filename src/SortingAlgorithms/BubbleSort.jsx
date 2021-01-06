@@ -31,4 +31,5 @@ function bubbleSort(array, animations) {
     }
     // console.log("ARRAY")
     // console.log(array);
+    console.log("SORTED");
 }
