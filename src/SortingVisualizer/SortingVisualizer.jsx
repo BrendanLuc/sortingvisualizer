@@ -1,5 +1,7 @@
 import React from 'react';
 import './SortingVisualizer.css';
+import {getBubbleSortAnimations} from '../SortingAlgorithms/BubbleSort.jsx';
+
 
 const VIS_MIN = 5
 const VIS_MAX = 650
@@ -36,6 +38,14 @@ export default class SortingVisualizer extends React.Component {
     }
     //bubble sort
     animateBubbleSort(){
+        let animations = getBubbleSortAnimations(this.render.array);
+        const color1 = '#6cc3d5';
+        const color2 = 'red';
+        const len = animations.length;
+        for (let i = 0; i < len; i++) {
+            console.log('Here')
+        }
+
 
     }
 
@@ -59,6 +69,7 @@ export default class SortingVisualizer extends React.Component {
         return (
             <div className="big-container">
                 <button type="button" class="btn btn-primary" onClick={() => this.resetArray()}>Generate New Numbers</button>
+                <button type="button" class="btn btn-primary" onClick={() => this.animateBubbleSort()}>Bubble Sort</button>
 
                 <div className="array-container">
                 {array.map((value, idx) => (
