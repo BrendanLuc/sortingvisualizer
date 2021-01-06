@@ -24,8 +24,9 @@ function bubbleSort(array, animations) {
             // animations.push([j, j+1])
             if (array[j] > array[j+1]) {
                 swap(j, array);
-                animations.push([j, j+1]);
+                animations.push([j, j+1, true]);
             }
+            else animations.push([j, j+1, false]);
         }
     }
     // console.log("ARRAY")

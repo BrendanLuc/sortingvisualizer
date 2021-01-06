@@ -6,7 +6,7 @@ import {getBubbleSortAnimations} from '../SortingAlgorithms/BubbleSort.jsx';
 const VIS_MIN = 5
 const VIS_MAX = 650
 const ARR_SIZE = 100
-const ANIMATION_SPEED_MS = 50
+const ANIMATION_SPEED_MS = 500
 
 const PRIMARY_COLOR = '#6cc3d5'
 const SECONDARY_COLOR = '#fd7e14'
@@ -53,31 +53,29 @@ export default class SortingVisualizer extends React.Component {
             let arrayBars = document.getElementsByClassName('array-bar');
             // highlight then swap
             
-            
             // get indexes and styles of array values
-            // console.log(animations[i])
-            let [firstBar, secondBar] = animations[i];
-            // console.log("first bar")
-            // console.log(firstBar);
-            // console.log("second bar")
-            // console.log(secondBar);
+            let [firstBar, secondBar, isSwap] = animations[i];
 
-            // console.log(arrayBars)
             let firstBarStyle = arrayBars[firstBar].style;
             let secondBarStyle = arrayBars[firstBar + 1].style;
 
+
+
             // highlight values being compared
+            // SECONDAY_COLOR shows comparison, SWAP_COLOR shows if there is a swap
             firstBarStyle.backgroundColor = SECONDARY_COLOR;
             secondBarStyle.backgroundColor = SECONDARY_COLOR;
             await this.sleep(ANIMATION_SPEED_MS);
 
             // show swap if there is one
-            firstBarStyle.backgroundColor = SWAP_COLOR;
-            secondBarStyle.backgroundColor = SWAP_COLOR;
-            const newHeight = firstBarStyle.height;
-            firstBarStyle.height = secondBarStyle.height;
-            secondBarStyle.height = newHeight;
-            await this.sleep(ANIMATION_SPEED_MS);
+            if (isSwap) {
+                firstBarStyle.backgroundColor = SWAP_COLOR;
+                secondBarStyle.backgroundColor = SWAP_COLOR;
+                const newHeight = firstBarStyle.height;
+                firstBarStyle.height = secondBarStyle.height;
+                secondBarStyle.height = newHeight;
+                await this.sleep(ANIMATION_SPEED_MS);
+            }
 
             // unhighlight
             firstBarStyle.backgroundColor = PRIMARY_COLOR;
