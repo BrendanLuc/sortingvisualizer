@@ -22,13 +22,23 @@ function insertionSort(array, animations) {
     for (let i = 1; i < arrayLength; i++) {
         let compareValue = array[i];
         let j = i - 1;
+        // animations.push([j, j+1, false]);
         while (j >= 0 && array[j] > compareValue) {
             swap(j, array)
+            animations.push([j, j+1, true]);
             j = j - 1;
+        }
+        // console.log(j)
+        if (j < 0) {
+            // console.log("BEINGING OF LIST, DO NOTHING")
+        }
+        else {
+            //show comparison when you dont have to move a bar, when its in final place
+            animations.push([j, j+1, false]);
         }
         array[j + 1] = compareValue;
     }
-    console.log("ARRAY")
-    console.log(array)
-    console.log("SORTED")
+    // console.log("ARRAY")
+    // console.log(array)
+    // console.log("SORTED")
 }
