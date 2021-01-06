@@ -24,6 +24,7 @@ function insertionSort(array, animations) {
         let j = i - 1;
         while (j >= 0 && array[j] > compareValue) {
             swap(j, array)
+            j = j - 1;
         }
         array[j + 1] = compareValue;
     }
