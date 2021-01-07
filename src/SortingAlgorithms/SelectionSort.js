@@ -24,16 +24,17 @@ function selectionSort(array, animations){
 
         for(let j = i+1; j < arrLen; ++j){
             if(array[j] < array[idx]) {
+                //console.log(array[j] +" < "+ array[idx]);
                 idx = j;
             }
         }
 
-
+        //console.log("swapping i:" + i + "with idx:" +idx);
         swap(i, idx, array);
         animations.push([i, idx]);
     }
 
-    
+    //console.log(array);
     return animations;
 
 }
