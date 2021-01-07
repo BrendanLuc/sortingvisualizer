@@ -15,7 +15,7 @@ function swap(i, j, array){
 }
 
 function mergeSort(array, l, r, animations){
-    console.log("left: " + l + " right: " + r);
+    //console.log("left: " + l + " right: " + r);
     if(l < r){
         let mid = Math.floor(l + (r - l) / 2);
         mergeSort(array, l, mid, animations);
@@ -27,7 +27,7 @@ function mergeSort(array, l, r, animations){
 }
 
 function merge(array, l, r, mid, animations){
-    console.log("MERGING: " + l + " -> " + r );
+    //console.log("MERGING: " + l + " -> " + r );
     let first = l;
     let middle = mid;
     let second = mid+1;
@@ -35,19 +35,20 @@ function merge(array, l, r, mid, animations){
     while(first <= middle && second <= r){
         //first in right spot
         if(array[first] < array[second]){
+            animations.push([first, second, false]);
             first++;
         }
         else{ //second needs to come up
             //array.splice(start, 0, array[second]);
             //array.splice(second, 1);
-            
+            animations.push([first, second, false]);
             let num = array[second]
             let j = second; //[ ... , i , j , ...]
             let i = second - 1;
             while(array[first] != num){
-                console.log("\tswap: " + i + " <-> " + j );
+                //console.log("\tswap: " + i + " <-> " + j );
                 swap(i, j, array);
-                animations.push([i, j]);
+                animations.push([i, j, true]);
                 i--; j--;
             }
 

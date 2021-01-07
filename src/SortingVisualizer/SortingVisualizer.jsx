@@ -6,7 +6,7 @@ import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSort.js'
 const VIS_MIN = 5
 const VIS_MAX = 650
 const ARR_SIZE = 10
-const ANIMATION_SPEED_MS = 100
+const ANIMATION_SPEED_MS = 50
 
 const PRIMARY_COLOR = '#6cc3d5'
 const SECONDARY_COLOR = '#fd7e14'
@@ -131,8 +131,45 @@ export default class SortingVisualizer extends React.Component {
     }
 
     //merge sort
-    animateMergeSort(){
-        const animations = getMergeSortAnimations(this.state.array); 
+    async animateMergeSort(){
+
+        const animations = getMergeSortAnimations(this.state.array);
+        console.log(animations);
+
+        for(let i = 0; i < animations.length; ++i){
+            
+
+            let arrayBars = document.getElementsByClassName('array-bar');
+            
+            //get indexes and styles of bars
+            const [firstBar, secondBar, swap] = animations[i];
+            let firstStyle = arrayBars[firstBar].style;
+            let secondStyle = arrayBars[secondBar].style;
+
+
+            //check if second needs to be pushed up
+            if(swap){ //do animations for each swap      
+                    const newHeight = firstStyle.height;
+                    
+                    firstStyle.height = secondStyle.height;
+                    secondStyle.height = newHeight;
+                    
+                    firstStyle.backgroundColor = PRIMARY_COLOR;
+                    secondStyle.backgroundColor = PRIMARY_COLOR;
+
+            }
+            else{ //bar is fine, move on, change colors back
+                firstStyle.backgroundColor = SECONDARY_COLOR;
+                secondStyle.backgroundColor = SECONDARY_COLOR;
+                await this.sleep(ANIMATION_SPEED_MS);
+                firstStyle.backgroundColor = PRIMARY_COLOR;
+                secondStyle.backgroundColor = PRIMARY_COLOR;
+            }
+            
+
+
+        }
+       // await this.setStateAsync({running: false});
         
     }
 
