@@ -1,3 +1,8 @@
-.dropdown:hover{
-    display:block;
+.prof-pic{
+    max-width: 20%;
+    border-radius: 100px;
+}
+
+.dropdown-item{
+    padding: 4px;
 }
