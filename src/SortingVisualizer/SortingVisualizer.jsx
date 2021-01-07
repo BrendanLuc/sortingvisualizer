@@ -8,7 +8,7 @@ import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSort.js'
 const VIS_MIN = 5
 const VIS_MAX = 650
 const ARR_SIZE = 100
-const ANIMATION_SPEED_MS = 500
+const ANIMATION_SPEED_MS = 100
 
 const PRIMARY_COLOR = '#6cc3d5'
 const SECONDARY_COLOR = '#fd7e14'
@@ -249,10 +249,10 @@ export default class SortingVisualizer extends React.Component {
         return (
             <div className="big-container">
                 <button type="button" className="btn btn-primary" onClick={() => this.resetArrayFromClick()}>Generate New Numbers</button>
-                <button type="button" class="btn btn-primary" onClick={() => this.animateBubbleSort()}>Bubble Sort</button>
-                <button type="button" class="btn btn-primary" onClick={() => this.animateInsertionSort()}>Insertion Sort</button>
-                <button type="button" className="btn btn-secondary" onClick={() => this.animateSelectionSort()}>Selection Sort</button>
-                <button type="button" className="btn btn-secondary" onClick={() => this.animateMergeSort()}>Merge Sort</button>
+                <button type="button" className="btn btn-secondary" onClick={() => this.animateBubbleSort()}>Bubble Sort</button>
+                <button type="button" className="btn btn-info" onClick={() => this.animateInsertionSort()}>Insertion Sort</button>
+                <button type="button" className="btn btn-warning" onClick={() => this.animateSelectionSort()}>Selection Sort</button>
+                <button type="button" className="btn btn-danger" onClick={() => this.animateMergeSort()}>Merge Sort</button>
                 <button type="button" className="btn btn-outline-secondary" onClick={() => this.toggleRunning()}>{this.state.running ? 'PAUSE' : 'PLAY'}</button>
 
                 <div className="array-container">
