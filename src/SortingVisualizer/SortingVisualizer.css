@@ -4,6 +4,10 @@
     margin-top: 10px;
 }
 
+.big-container button {
+    margin-left: 5px;
+}
+
 .array-container {
     /*background: lightblue;*/
     position: relative;
