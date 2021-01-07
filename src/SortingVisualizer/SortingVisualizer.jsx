@@ -5,7 +5,7 @@ import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSort.js'
 
 const VIS_MIN = 5
 const VIS_MAX = 650
-const ARR_SIZE = 10
+const ARR_SIZE = 100
 const ANIMATION_SPEED_MS = 50
 
 const PRIMARY_COLOR = '#6cc3d5'

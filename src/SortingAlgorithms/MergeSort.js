@@ -45,7 +45,7 @@ function merge(array, l, r, mid, animations){
             let num = array[second]
             let j = second; //[ ... , i , j , ...]
             let i = second - 1;
-            while(array[first] != num){
+            while(i != first-1){
                 //console.log("\tswap: " + i + " <-> " + j );
                 swap(i, j, array);
                 animations.push([i, j, true]);
