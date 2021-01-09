@@ -42,10 +42,9 @@ function merge(array, l, r, mid, animations){
             //array.splice(start, 0, array[second]);
             //array.splice(second, 1);
             animations.push([first, second, false]);
-            let num = array[second]
             let j = second; //[ ... , i , j , ...]
             let i = second - 1;
-            while(i != first-1){
+            while(i !== first-1){
                 //console.log("\tswap: " + i + " <-> " + j );
                 swap(i, j, array);
                 animations.push([i, j, true]);

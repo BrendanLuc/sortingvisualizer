@@ -8,7 +8,7 @@ import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSort.js'
 const VIS_MIN = 5
 const VIS_MAX = 650
 const ARR_SIZE = 100
-const ANIMATION_SPEED_MS = 100
+const ANIMATION_SPEED_MS = 10
 
 const PRIMARY_COLOR = '#6cc3d5'
 const SECONDARY_COLOR = '#fd7e14'
@@ -22,7 +22,8 @@ export default class SortingVisualizer extends React.Component {
         this.state = {
             array: [],
             running: false,
-            newState:false,
+            cycle: 0,
+            newState:false, //true means array hasn't been sorted het
         };
     }
 
@@ -34,6 +35,7 @@ export default class SortingVisualizer extends React.Component {
     resetArray(){
         this.setState({newState: true});
         this.setState({running: false});
+        this.setState({cycle: this.state.cycle + 1});
         const array = [];
         for(let i = 0; i < ARR_SIZE; ++i){
             //generates ARR_SIZE random numbers for array
@@ -43,9 +45,9 @@ export default class SortingVisualizer extends React.Component {
 
     }
 
-    async resetArrayFromClick(){
+    resetArrayFromClick(){
         //reset bar opacity
-        await this.resetArray();
+        this.resetArray();
         let arrayBars = document.getElementsByClassName('array-bar');
         for(let j = 0; j < ARR_SIZE; ++j){
             arrayBars[j].style.opacity = "100%";
@@ -70,64 +72,85 @@ export default class SortingVisualizer extends React.Component {
 
     async animateSelectionSort(){
         //check if sorting has already happened for these numbers
-        //if(!this.state.newState) return;
+        if(!this.state.newState) return;
+        
+        //true copy so we can check and update state values
+        let sortedArray = Array.from(this.state.array);
+        const animations = getSelectionSortAnimations(sortedArray);
 
-        const animations = getSelectionSortAnimations(this.state.array);
-        //await this.setStateAsync({newState: false});
-        //await this.setStateAsync({running: true});
+        await this.setStateAsync({newState: false});
+        await this.setStateAsync({running: true});
+        let cycle = this.state.cycle;
 
         for(let i = 0; i < animations.length; ++i){
-            //user reset the numbers, quit animation
-            console.log("STATE: " + this.state.newState);
-            //if(this.state.newState) return;
 
-
-           // while(!this.state.running) await this.sleep(10); //user paused the animation, loop until played (is there a better way to do this?)
+            while(!this.state.running) await this.sleep(10); //user paused the animation, loop until played (is there a better way to do this?)
+            if(this.state.cycle !== cycle) return; //user reset the numbers, quit animation
 
             let arrayBars = document.getElementsByClassName('array-bar');
 
             //get indexes and styles of bars
-            const [firstBar, secondBar] = animations[i];
+            const [firstBar, secondBar, swap] = animations[i];
             let firstStyle = arrayBars[firstBar].style;
             let secondStyle = arrayBars[secondBar].style;
 
+                 //first step: highlight compared items
+                //console.log("ORANGE");
+                firstStyle.backgroundColor = SECONDARY_COLOR;
+                secondStyle.backgroundColor = SECONDARY_COLOR;
+                await this.sleep(ANIMATION_SPEED_MS);
 
-            //first step: highlight compared items
-            //console.log("ORANGE");
-            firstStyle.backgroundColor = SECONDARY_COLOR;
-            secondStyle.backgroundColor = SECONDARY_COLOR;
-            await this.sleep(ANIMATION_SPEED_MS);
+            if(swap){
+                //second step: change heights
+                const newHeight = firstStyle.height;
+                firstStyle.backgroundColor = SWAP_COLOR;
+                secondStyle.backgroundColor = SWAP_COLOR;
+                firstStyle.height = secondStyle.height;
+                secondStyle.height = newHeight;
+                await this.sleep(ANIMATION_SPEED_MS);
 
+                //third step: unhighlight items
+                //console.log("BLUE");
 
-            //second step: change heights
-            const newHeight = firstStyle.height;
-            firstStyle.backgroundColor = SWAP_COLOR;
-            secondStyle.backgroundColor = SWAP_COLOR;
-            firstStyle.height = secondStyle.height;
-            secondStyle.height = newHeight;
-            await this.sleep(ANIMATION_SPEED_MS);
-
-            //third step: unhighlight items
-            //console.log("BLUE");
-
-            firstStyle.backgroundColor = PRIMARY_COLOR;
-            secondStyle.backgroundColor = PRIMARY_COLOR;
-           // if(this.state.newState) return;
-            firstStyle.opacity = '50%';
-
-
+                firstStyle.backgroundColor = PRIMARY_COLOR;
+                secondStyle.backgroundColor = PRIMARY_COLOR;
+                if(this.state.newState) return;
+                firstStyle.opacity = '50%';
+                await this.sleep(ANIMATION_SPEED_MS);
+            }
+            else{
+                firstStyle.backgroundColor = PRIMARY_COLOR;
+                secondStyle.backgroundColor = PRIMARY_COLOR;
+            }
+           
 
 
         }
-       // await this.setStateAsync({running: false});
+        this.setState({array: sortedArray});
+        await this.setStateAsync({running: false});
 
     }
     //bubble sort
     async animateBubbleSort() {
-        const animations = getBubbleSortAnimations(this.state.array);
+        //check if sorting has already happened for these numbers
+        if(!this.state.newState) return;
+        
+        //true copy so we can check and update state values
+        let sortedArray = Array.from(this.state.array);
+        const animations = getBubbleSortAnimations(sortedArray);
+
+        await this.setStateAsync({newState: false});
+        await this.setStateAsync({running: true});
+        let cycle = this.state.cycle;
+       // console.log("CYCLE: " + cycle);
+
         // console.log(animations);
         // console.log(animations.length)
         for (let i = 0; i < animations.length; i++) {
+
+            while(!this.state.running) await this.sleep(10); //user paused the animation, loop until played (is there a better way to do this?)
+            if(this.state.cycle !== cycle) return; //user reset the numbers, quit animation
+
             let arrayBars = document.getElementsByClassName('array-bar');
 
             // get indexes and styles of array values
@@ -156,15 +179,30 @@ export default class SortingVisualizer extends React.Component {
             secondBarStyle.backgroundColor = PRIMARY_COLOR;
             await this.sleep(ANIMATION_SPEED_MS);
         }
-        console.log("SORTED!!!")
+        this.setState({array: sortedArray});
+        await this.setStateAsync({running: false});
     }
 
     //insertion sort
     async animateInsertionSort() {
-        const animations = getInsertionSortAnimations(this.state.array);
+        //check if sorting has already happened for these numbers
+        await this.sleep(ANIMATION_SPEED_MS);
+        if(!this.state.newState) return;
+        
+        //true copy so we can check and update state values
+        let sortedArray = Array.from(this.state.array);
+        const animations = getInsertionSortAnimations(sortedArray);
+
+        await this.setStateAsync({newState: false});
+        await this.setStateAsync({running: true});
+        let cycle = this.state.cycle;
         // console.log(animations);
 
         for (let i = 0; i < animations.length; i++) {
+
+            while(!this.state.running) await this.sleep(10); //user paused the animation, loop until played (is there a better way to do this?)
+            if(this.state.cycle !== cycle) return; //user reset the numbers, quit animation
+
             let arrayBars = document.getElementsByClassName('array-bar');
 
             // get indexes and styles of array values
@@ -193,17 +231,31 @@ export default class SortingVisualizer extends React.Component {
             secondBarStyle.backgroundColor = PRIMARY_COLOR;
             await this.sleep(ANIMATION_SPEED_MS);
         }
-        console.log("SORTED!!!")
+        //console.log("SORTED!!!")
+        this.setState({array: sortedArray});
+        await this.setStateAsync({running: false});
     }
 
     //merge sort
     async animateMergeSort(){
 
-        const animations = getMergeSortAnimations(this.state.array);
-        console.log(animations);
+        //check if sorting has already happened for these numbers
+        await this.sleep(ANIMATION_SPEED_MS);
+        if(!this.state.newState) return;
+        
+        //true copy so we can check and update state values
+        let sortedArray = Array.from(this.state.array);
+        const animations = getMergeSortAnimations(sortedArray);
+
+        await this.setStateAsync({newState: false});
+        await this.setStateAsync({running: true});
+        let cycle = this.state.cycle;
+        //console.log(animations);
 
         for(let i = 0; i < animations.length; ++i){
 
+            while(!this.state.running) await this.sleep(10); //user paused the animation, loop until played (is there a better way to do this?)
+            if(this.state.cycle !== cycle) return; //user reset the numbers, quit animation
 
             let arrayBars = document.getElementsByClassName('array-bar');
 
@@ -232,11 +284,9 @@ export default class SortingVisualizer extends React.Component {
                 secondStyle.backgroundColor = PRIMARY_COLOR;
             }
 
-
-
         }
-       // await this.setStateAsync({running: false});
-
+        this.setState({array: sortedArray});
+        await this.setStateAsync({running: false});
     }
 
     //fixme: quicksort later
@@ -249,11 +299,11 @@ export default class SortingVisualizer extends React.Component {
         return (
             <div className="big-container">
                 <button type="button" className="btn btn-primary" onClick={() => this.resetArrayFromClick()}>Generate New Numbers</button>
-                <button type="button" className="btn btn-secondary" onClick={() => this.animateBubbleSort()}>Bubble Sort</button>
-                <button type="button" className="btn btn-info" onClick={() => this.animateInsertionSort()}>Insertion Sort</button>
-                <button type="button" className="btn btn-warning" onClick={() => this.animateSelectionSort()}>Selection Sort</button>
-                <button type="button" className="btn btn-danger" onClick={() => this.animateMergeSort()}>Merge Sort</button>
-                <button type="button" className="btn btn-outline-secondary" onClick={() => this.toggleRunning()}>{this.state.running ? 'PAUSE' : 'PLAY'}</button>
+                <button type="button" className="btn btn-secondary" disabled={!this.state.newState} onClick={() => this.animateBubbleSort()}>Bubble Sort</button>
+                <button type="button" className="btn btn-info" disabled={!this.state.newState} onClick={() => this.animateInsertionSort()}>Insertion Sort</button>
+                <button type="button" className="btn btn-warning" disabled={!this.state.newState} onClick={() => this.animateSelectionSort()}>Selection Sort</button>
+                <button type="button" className="btn btn-danger" disabled={!this.state.newState} onClick={() => this.animateMergeSort()}>Merge Sort</button>
+                {this.state.newState ? null : <button type="button" className="btn btn-outline-secondary" onClick={() => this.toggleRunning()}>{this.state.running ? 'PAUSE' : 'PLAY'}</button>}
 
                 <div className="array-container">
                 {array.map((value, idx) => (
