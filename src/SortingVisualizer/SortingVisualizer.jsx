@@ -107,10 +107,9 @@ export default class SortingVisualizer extends React.Component {
                 secondStyle.backgroundColor = SWAP_COLOR;
                 firstStyle.height = secondStyle.height;
                 secondStyle.height = newHeight;
-                await this.sleep(ANIMATION_SPEED_MS);
+                await this.sleep(ANIMATION_SPEED_MS*2);
 
                 //third step: unhighlight items
-                //console.log("BLUE");
 
                 firstStyle.backgroundColor = PRIMARY_COLOR;
                 secondStyle.backgroundColor = PRIMARY_COLOR;
@@ -142,10 +141,7 @@ export default class SortingVisualizer extends React.Component {
         await this.setStateAsync({newState: false});
         await this.setStateAsync({running: true});
         let cycle = this.state.cycle;
-       // console.log("CYCLE: " + cycle);
-
-        // console.log(animations);
-        // console.log(animations.length)
+       
         for (let i = 0; i < animations.length; i++) {
 
             while(!this.state.running) await this.sleep(10); //user paused the animation, loop until played (is there a better way to do this?)
