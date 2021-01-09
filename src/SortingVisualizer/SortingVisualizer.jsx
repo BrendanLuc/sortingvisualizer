@@ -8,7 +8,7 @@ import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSort.js'
 const VIS_MIN = 5
 const VIS_MAX = 650
 const ARR_SIZE = 100
-var ANIMATION_SPEED_MS = 100
+var ANIMATION_SPEED_MS = 250
 
 const PRIMARY_COLOR = '#6cc3d5'
 const SECONDARY_COLOR = '#fd7e14'
@@ -270,7 +270,7 @@ export default class SortingVisualizer extends React.Component {
                 <button type="button" className="btn btn-danger" onClick={() => this.animateMergeSort()}>Merge Sort</button>
                 <button type="button" className="btn btn-outline-secondary" onClick={() => this.toggleRunning()}>{this.state.running ? 'PAUSE' : 'PLAY'}</button>
                 <div class="slidecontainer">
-                    <input type="range" min="1" max="500" value="250" class="slider" id="speedSlider"></input>
+                    <input type="range" min="1" max="500" value={ANIMATION_SPEED_MS} class="slider" id="speedSlider"></input>
                     <p>Animation Speed (milliseconds): <span id="speedValue"></span></p>
                 </div>
  
