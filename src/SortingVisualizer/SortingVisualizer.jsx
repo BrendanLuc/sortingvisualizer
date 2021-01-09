@@ -30,7 +30,7 @@ export default class SortingVisualizer extends React.Component {
     //when app loads, reset array
     componentDidMount(){
         this.resetArray();
-        this.rangeSlider();
+        this.speedSlider();
     }
 
     resetArray(){
@@ -48,7 +48,7 @@ export default class SortingVisualizer extends React.Component {
 
 
 
-    rangeSlider() {
+    speedSlider() {
         var slider = document.getElementById("speedSlider");
         var output = document.getElementById("speedValue");
         output.innerHTML = slider.value; // Display the default slider value
@@ -59,6 +59,9 @@ export default class SortingVisualizer extends React.Component {
             ANIMATION_SPEED_MS = this.value;
         }
     }
+
+
+    
 
     async resetArrayFromClick(){
         //reset bar opacity
