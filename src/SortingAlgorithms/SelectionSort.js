@@ -23,6 +23,7 @@ function selectionSort(array, animations){
         let idx = i;
 
         for(let j = i+1; j < arrLen; ++j){
+            animations.push([i, j, false]);
             if(array[j] < array[idx]) {
                 //console.log(array[j] +" < "+ array[idx]);
                 idx = j;
@@ -31,7 +32,7 @@ function selectionSort(array, animations){
 
         //console.log("swapping i:" + i + "with idx:" +idx);
         swap(i, idx, array);
-        animations.push([i, idx]);
+        animations.push([i, idx, true]);
     }
 
     //console.log(array);
