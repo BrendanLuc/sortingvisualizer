@@ -8,7 +8,7 @@ import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSort.js'
 const VIS_MIN = 5
 const VIS_MAX = 650
 const ARR_SIZE = 100
-const ANIMATION_SPEED_MS = 100
+var ANIMATION_SPEED_MS = 100
 
 const PRIMARY_COLOR = '#6cc3d5'
 const SECONDARY_COLOR = '#fd7e14'
@@ -29,18 +29,33 @@ export default class SortingVisualizer extends React.Component {
     //when app loads, reset array
     componentDidMount(){
         this.resetArray();
+        this.rangeSlider();
     }
 
     resetArray(){
         this.setState({newState: true});
         this.setState({running: false});
         const array = [];
-        for(let i = 0; i < ARR_SIZE; ++i){
+        for (let i = 0; i < ARR_SIZE; ++i){
             //generates ARR_SIZE random numbers for array
             array.push(randomIntFromInterval(VIS_MIN,VIS_MAX));
         }
         this.setState({array})
 
+    }
+
+
+   
+    rangeSlider() {
+        var slider = document.getElementById("speedSlider");
+        var output = document.getElementById("speedValue");
+        output.innerHTML = slider.value; // Display the default slider value
+        slider.oninput = function() {
+            console.log("We HERE");
+            output.innerHTML = this.value;
+            slider.value = this.value;
+            ANIMATION_SPEED_MS = this.value;
+        }       
     }
 
     async resetArrayFromClick(){
@@ -254,7 +269,11 @@ export default class SortingVisualizer extends React.Component {
                 <button type="button" className="btn btn-warning" onClick={() => this.animateSelectionSort()}>Selection Sort</button>
                 <button type="button" className="btn btn-danger" onClick={() => this.animateMergeSort()}>Merge Sort</button>
                 <button type="button" className="btn btn-outline-secondary" onClick={() => this.toggleRunning()}>{this.state.running ? 'PAUSE' : 'PLAY'}</button>
-
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="500" value="250" class="slider" id="speedSlider"></input>
+                    <p>Animation Speed (milliseconds): <span id="speedValue"></span></p>
+                </div>
+ 
                 <div className="array-container">
                 {array.map((value, idx) => (
                     <div
